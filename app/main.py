@@ -43,6 +43,9 @@ def shutdown_db_client():
     app.mongodb_client.close()
 
 
+print(os.getcwd())
+
+
 app.include_router(router, tags=["job"], prefix="/jobs")
 
 if __name__ == "__main__":
