@@ -2,7 +2,7 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from db import mongodb_client, database
+from app.db import mongodb_client, database
 from routes import router
 from fastapi.middleware.cors import CORSMiddleware
 
