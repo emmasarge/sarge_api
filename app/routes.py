@@ -12,10 +12,9 @@ collection = database['experience']
 @router.get("/", response_description="List all jobs")
 async def list_jobs():
     jobs = list(collection.find({}, limit=100))
-    formatted_jobs = [{"title": job["title"],
+    formatted_jobs = [{"_id": str(job["_id"]), "title": job["title"],
                        "company_name": job["company_name"],
                        "skills": job["skills"]} for job in jobs]
-
     return formatted_jobs
 
 
