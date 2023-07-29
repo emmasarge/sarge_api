@@ -1,16 +1,15 @@
 import os
-import sys
 import uvicorn
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from database import mongodb_client, database
-from routes import router
+from app.database import mongodb_client, database
+from app.routes import router
 from fastapi.middleware.cors import CORSMiddleware
 
 
 load_dotenv()
- 
-print(sys.path)
+
+
 app = FastAPI()
 
 origins = [
@@ -43,9 +42,6 @@ def startup_db_client():
 @app.on_event("shutdown")
 def shutdown_db_client():
     app.mongodb_client.close()
-
-
-print(os.getcwd())
 
 
 app.include_router(router, tags=["job"], prefix="/jobs")
