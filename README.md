@@ -43,12 +43,6 @@ Activate environment:
         python3 -m uvicorn main:app --reload
 
 
-### to view in browser locally:
-
-        http://localhost:8000/docs
-
-
-
 ### when adding dependencies:
 
         pip freeze > requirements.txt
@@ -57,3 +51,14 @@ Activate environment:
 ### push to heroku:
 
         git push heroku main
+
+        
+### to view in browser locally:
+
+        http://localhost:8000/docs
+
+
+### to view in production:
+
+    https://sarge-api-23-8cdf3807bdf0.herokuapp.com/docs
+
