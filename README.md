@@ -1,13 +1,16 @@
 # sarge_api
 python, mongodb, flask, fast api
 
-
-
 ## python v3
 
 Check version:
 
     python3 --version
+
+Install pip
+    
+    python3 -m pip install --upgrade pip
+
 
 Create environment:
 
@@ -45,7 +48,7 @@ Activate environment:
 
 ### when adding dependencies:
 
-        pip freeze > requirements.txt
+        pip3 freeze > requirements.txt
 
 
 ### push to heroku:
