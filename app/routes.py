@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Depends, status
+from fastapi import APIRouter, Body, Depends, HTTPException, status
 from app.admin import authenticate
 
 # Request, Response, HTTPException,
@@ -41,11 +41,14 @@ def create_job(
     company_name: str,
     company_url: str,
     company_description: str,
-    project_description: ProjectDescription,  # Update parameter type
+    project_description: ProjectDescription, 
     project_videos: ProjectVideos,
     skills: list[str],
     authenticated: bool = Depends(authenticate),
 ):
+    if not authenticated:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    
     job_data = {
         "title": title,
         "company_name": company_name,
