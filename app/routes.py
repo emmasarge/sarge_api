@@ -1,14 +1,22 @@
-from fastapi import APIRouter, Body, Depends, HTTPException, status
+from fastapi import APIRouter, Body, Depends, Form, HTTPException, status
 from app.admin import authenticate
 
 # Request, Response, HTTPException,
 from app.database import database
-from app.models import Job, ProjectDescription, ProjectVideos
+from app.models import (
+    CreateJobRequest,
+    Job,
+    JobUpdate,
+    ProjectDescription,
+    ProjectVideos,
+)
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
 
 collection = database["experience"]
+
+jobs_db = []
 
 
 @router.get("/", response_description="List all jobs")
@@ -30,52 +38,29 @@ async def list_jobs():
     return formatted_jobs
 
 
-@router.post(
-    "/",
-    response_description="Create a new job",
-    status_code=status.HTTP_201_CREATED,
-    response_model=Job,
-)
-def create_job(
-    title: str,
-    company_name: str,
-    company_url: str,
-    company_description: str,
-    project_description: ProjectDescription, 
-    project_videos: ProjectVideos,
-    skills: list[str],
+@router.post("/jobs/", response_model=Job, response_description="Create a new job")
+async def create_job(
+    title: str = Form(...),
+    company_name: str = Form(...),
+    company_url: str = Form(...),
+    company_description: str = Form(...),
+    project_description: ProjectDescription = Form(...),
+    project_videos: ProjectVideos = Form(...),
+    skills: list[str] = Form(...),
     authenticated: bool = Depends(authenticate),
 ):
     if not authenticated:
         raise HTTPException(status_code=401, detail="Unauthorized")
-    
+
     job_data = {
         "title": title,
         "company_name": company_name,
         "company_url": company_url,
         "company_description": company_description,
-        "project_description": {
-            "paragraph_1": project_description.paragraph_1,
-            "paragraph_2": project_description.paragraph_2,
-        },
-        "project_videos": {
-            "video_1": {
-                "video_title": project_videos.video_1.video_title,
-                "video_url": project_videos.video_1.video_url,
-            },
-        },
-        "video_2": {
-            "video_title": project_videos.video_2.video_title,
-            "video_url": project_videos.video_2.video_url,
-        },
-        "video_3": {
-            "video_title": project_videos.video_3.video_title,
-            "video_url": project_videos.video_3.video_url,
-        },
+        "project_description": project_description.model_dump(),
+        "project_videos": project_videos.model_dump(),
         "skills": skills,
     }
-
     new_job = collection.insert_one(job_data)
     created_job = collection.find_one({"_id": new_job.inserted_id})
-
     return created_job

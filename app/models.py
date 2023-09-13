@@ -1,6 +1,8 @@
+from pickletools import pydict
 import uuid
 from typing import Optional, List
 from pydantic import BaseModel, Field
+
 
 
 class Video(BaseModel):
@@ -61,8 +63,8 @@ class Job(BaseModel):
     skills: List[str] = Field(...)
     company_url: str = Field(...)
     company_description: str = Field(...)
-    project_description: dict = Field(...)
-    project_videos: dict = Field(...)
+    project_description: ProjectDescription
+    project_videos: ProjectVideos
 
     class Config:
         populate_by_name = True
@@ -133,3 +135,13 @@ class JobUpdate(BaseModel):
                 "company_url": "https://www.enron.com/",
             }
         }
+
+
+class CreateJobRequest(BaseModel):
+    title: str
+    company_name: str
+    company_url: str
+    company_description: str
+    project_description: ProjectDescription
+    project_videos: ProjectVideos
+    skills: List[str]
