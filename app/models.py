@@ -3,10 +3,24 @@ from typing import Optional, List
 from pydantic import BaseModel, Field
 
 
+class Video(BaseModel):
+    video_title: str
+    video_url: str
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "video_title": "Google",
+                "video_url": "https://www.youtube.com/watch?v=JN3o2sLniKM",
+            }
+        }
+
+
 class ProjectVideos(BaseModel):
-    video_1: Optional[dict]
-    video_2: Optional[dict]
-    video_3: Optional[dict]
+    video_1: Video
+    video_2: Optional[Video]
+    video_3: Optional[Video]
+    
 
     class Config:
         json_schema_extra = {
