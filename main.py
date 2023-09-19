@@ -19,7 +19,9 @@ origins = [
     "https://sarge-api-55c088dc973a.herokuapp.com/",
     "https://sarge-api-2-2c274f48e1a5.herokuapp.com/",
     "https://sarge-api-23-8cdf3807bdf0.herokuapp.com/",
-    "https://git.heroku.com/sarge-api-23.git"
+    "https://git.heroku.com/sarge-api-23.git",
+    "https://emmasarge-developer.netlify.app/",
+    "https://emmasarge-developer.com/"
 ]
 
 
